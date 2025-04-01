@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Movie Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="app-wrapper">
+            <div class="intro-section">
+                <h2>Discover Your Next Favorite Movie</h2>
+                <p>Not sure what to watch? Let us help you find the perfect movie in just a few clicks!</p>
+                <br>
+                <p>🔍 Filter Your Way to the Best Picks</p>
+
+                <ul class="steps-list">
+                    <li>
+                        <div class="step-number">✅ Pick a Genre</div>
+                        <div class="step-description">Action, Romance, Comedy? The choice is yours.</div>
+                    </li>
+                    <li>
+                        <div class="step-number">✅ Choose a Year</div>
+                        <div class="step-description">Love classics or the latest blockbusters? Set your range.</div>
+                    </li>
+                    <li>
+                        <div class="step-number">✅ Adjust the Ratings</div>
+                        <div class="step-description">Find hidden gems or the highest-rated masterpieces.</div>
+                    </li>
+                    <li>
+                        <div class="step-number">✅ Select a Language</div>
+                        <div class="step-description">From Hollywood to Bollywood, explore global cinema.</div>
+                    </li>
+                </ul>
+
+                <br>
+                <p class="made-with-love"><small><i>Made with Love ❤️ by Chethiya Ravindranath</i></small></p>
+            </div>
+
+            <div class="filter-section">
+                <h2>Pick A Movie</h2>
+                <form id="filter-form">
+                    <div class="filter-group">
+                        <label for="genre">Genre</label>
+                        <select id="genre" name="genre">
+                            <option value="">Pick a genre</option>
+                            {% for genre in genres %}
+                            <option value="{{ genre.id }}">{{ genre.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Year</label>
+                        <div class="year-filter">
+                            <input type="number" id="year_min" name="year_min" min="{{ min_year }}" max="{{ max_year }}" placeholder="From">
+                            <input type="number" id="year_max" name="year_max" min="{{ min_year }}" max="{{ max_year }}" placeholder="To">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="rating_min">Minimum Rating</label>
+                        <select id="rating_min" name="rating_min">
+                            <option value="">Select a rating</option>
+                            <option value="9">9+</option>
+                            <option value="8">8+</option>
+                            <option value="7">7+</option>
+                            <option value="6">6+</option>
+                            <option value="5">5+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="language-search">Language</label>
+                        <div class="language-search-container">
+                            <input type="text" id="language-search" placeholder="Search for a language...">
+                            <div id="language-suggestions" class="language-suggestions hidden"></div>
+                            <input type="hidden" id="language" name="language" value="">
+                        </div>
+                        <div id="selected-language" class="selected-language hidden">
+                            <span id="language-name"></span>
+                            <button type="button" id="clear-language">&times;</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="search-button">Give me a movie</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="movie-result" class="hidden">
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <img id="movie-poster-img" src="" alt="Movie Poster">
+                </div>
+                <div class="movie-details">
+                    <h2 id="movie-title"></h2>
+                    <div class="movie-meta">
+                        <span id="movie-year"></span>
+                        <span id="movie-runtime"></span>
+                        <span id="movie-rating" class="rating"></span>
+                    </div>
+                    <div id="movie-genres"></div>
+                    <p id="movie-plot"></p>
+                    <div class="movie-info">
+                        <p><strong>Director:</strong> <span id="movie-director"></span></p>
+                        <p><strong>Cast:</strong> <span id="movie-cast"></span></p>
+                        <p><strong>Language:</strong> <span id="movie-language"></span></p>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" id="next-button" disabled>Next Movie</button>
+                        <button type="button" id="reset-button">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Looking for your perfect movie...</p>
+        </div>
+
+        <div id="no-results" class="hidden">
+            <p>No movies match your filters. Try adjusting your criteria.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

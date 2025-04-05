@@ -4,16 +4,13 @@ import random
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 
-# TMDb API configuration
 TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 
-# Language mapping (name to ISO code)
 LANGUAGE_CODES = {
     "English": "en",
     "Mandarin Chinese": "zh",
@@ -47,14 +44,12 @@ LANGUAGE_CODES = {
     "Greek": "el"
 }
 
-# Get language name from code
 def get_language_name(code):
     for name, lang_code in LANGUAGE_CODES.items():
         if lang_code == code:
             return name
     return "Unknown"
 
-# Get genres from TMDb API
 def get_genres():
     url = f"{TMDB_BASE_URL}/genre/movie/list"
     params = {
@@ -66,11 +61,9 @@ def get_genres():
         return response.json()["genres"]
     return []
 
-# Discover movies based on filters
 def discover_movies(filters):
     url = f"{TMDB_BASE_URL}/discover/movie"
 
-    # Default parameters
     params = {
         "api_key": TMDB_API_KEY,
         "language": "en-US",
@@ -80,7 +73,6 @@ def discover_movies(filters):
         "page": 1
     }
 
-    # Add filters if provided
     if filters.get('genre'):
         params["with_genres"] = filters['genre']
 
@@ -102,7 +94,6 @@ def discover_movies(filters):
     return []
 
 
-# Get detailed movie information
 def get_movie_details(movie_id):
     url = f"{TMDB_BASE_URL}/movie/{movie_id}"
     params = {
@@ -120,10 +111,8 @@ def get_movie_details(movie_id):
 
 @app.route('/')
 def index():
-    # Get all genres for the dropdown
     genres = get_genres()
 
-    # Year range - reasonable default
     min_year = 1950
     max_year = 2025
 
@@ -135,7 +124,6 @@ def index():
 
 @app.route('/get_random_movie', methods=['POST'])
 def get_random_movie():
-    # Get filter parameters from request
     filters = {
         'genre': request.form.get('genre'),
         'year_min': request.form.get('year_min'),
@@ -144,25 +132,20 @@ def get_random_movie():
         'language': request.form.get('language')
     }
 
-    # Filter out empty filters
     filters = {k: v for k, v in filters.items() if v}
 
-    # Get movies matching filters
     movies = discover_movies(filters)
 
     if not movies:
         return jsonify({'error': 'No movies match your filters. Try adjusting your criteria.'})
 
-    # Get a random movie from the results
     random_movie = random.choice(movies)
 
-    # Get detailed information about the movie
     movie_details = get_movie_details(random_movie["id"])
 
     if not movie_details:
         return jsonify({'error': 'Failed to load movie details. Please try again.'})
 
-    # Format movie data
     formatted_movie = {
         'id': movie_details['id'],
         'title': movie_details['title'],

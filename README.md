@@ -4,7 +4,7 @@ A web application to discover random movies based on your preferences. This app 
 
 ---
 
-## ✨ Features
+## Features
 
 - **Intuitive Filtering**: Easily filter movies by genre, release year, rating, and language  
 - **Random Selection**: Get random movie recommendations based on your criteria  
@@ -14,7 +14,7 @@ A web application to discover random movies based on your preferences. This app 
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - **Backend**: Flask (Python)  
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)  
@@ -22,7 +22,7 @@ A web application to discover random movies based on your preferences. This app 
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 - Add user accounts to save favorite movies  
 - Implement more filtering options (actors, directors, keywords)  
@@ -32,6 +32,6 @@ A web application to discover random movies based on your preferences. This app 
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
